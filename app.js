@@ -1,4 +1,5 @@
 var createError = require('http-errors');
+var cors = require('cors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -19,6 +20,8 @@ let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 var app = express();
+
+app.use(cors());
 
 //bodyParser configuration
 app.use(bodyParser.json());
@@ -42,6 +45,8 @@ app.use('/books', book);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next(createError(404));
 });
 
